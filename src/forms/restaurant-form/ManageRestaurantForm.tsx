@@ -37,7 +37,7 @@ const formSchema = z.object({
         price: z.coerce.number().min(1, "Price is required"),
     })),
     imageFile: z.string().optional(),
-    imageUrl : z.instanceof(File, {message: "Image is required"}).optional(),
+    imageUrl : z.union([z.string().url().optional(), z.instanceof(File, { message: "Must be a file" }).optional()])
 }).refine((data) => data.imageUrl || data.imageFile, {
     message: 'Either Image URL or Image File must be provided',
     path: ['imageUrl'],
