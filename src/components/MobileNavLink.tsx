@@ -9,6 +9,9 @@ export default function MobileNavLink() {
     <Link to='/user-profile' className="flex justify-center bg-red-100 items-center font-bold hover:text-red-500 py-3 rounded-lg hover:shadow-lg transition-shadow ease-in delay-75">
         User Profile
     </Link> 
+    <Link to='/order-status' className="flex justify-center bg-red-100 items-center font-bold hover:text-red-500 py-3 rounded-lg hover:shadow-lg transition-shadow ease-in delay-75">
+      My Orders
+    </Link>
     <Link to='/manage-restaurant-page' className="flex justify-center bg-red-100 items-center font-bold hover:text-red-500 py-3 rounded-lg hover:shadow-lg transition-shadow ease-in delay-75">
         Manage Restaurant
     </Link> 

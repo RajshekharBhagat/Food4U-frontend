@@ -21,7 +21,7 @@ export default function MobileNav() {
                         <CircleUserRound />
                         {user?.email}
                     </span> : 
-                    <span>Welcome to Swiggy</span>
+                    <span>Welcome to Food4U</span>
                 }
             </SheetTitle>
             <Separator/>

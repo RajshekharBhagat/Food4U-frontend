@@ -10,7 +10,7 @@ export default function MainNav() {
       {
         isAuthenticated ? (
           <>
-            <Link to='/user-orders'>
+            <Link to='/order-status'>
               <span className=" font-semibold hover:text-red-500  ">Orders</span>
             </Link>
             <UserNameMenu />

@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Header from "@/components/header";
+import { Toaster } from "@/components/ui/sonner";
 
 type Props = {
     children: React.ReactNode;
@@ -19,6 +20,7 @@ const Layout = ({ children, showHero = false }:Props) => {
                 {children}
             </div>
             <Footer />
+            <Toaster />
        </div>
     )
 }

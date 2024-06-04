@@ -42,7 +42,7 @@ const DetailPage = () => {
       restaurantId: restaurant._id,
       deliveryDetails: {
         email: userFormData.email as string,
-        username: userFormData.username,
+        name: userFormData.username,
         addressLine1: userFormData.addressLine1,
         city: userFormData.city,
       },

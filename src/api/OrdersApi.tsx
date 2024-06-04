@@ -1,5 +1,6 @@
+import { Order } from "@/Types/types";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -11,7 +12,7 @@ type CheckoutSessionRequest = {
   }[];
   deliveryDetails: {
     email: string;
-    username: string;
+    name: string;
     addressLine1: string;
     city: string;
   };
@@ -64,3 +65,71 @@ export const useCreateCheckoutSession = () => {
     isLoading,
   };
 };
+
+export const useGetOrder = () => {
+  const { getAccessTokenSilently } = useAuth0();
+  const getOrderRequest = async (): Promise<Order[]> => {
+    const accessToken = await getAccessTokenSilently();
+    const response = await fetch(`${API_BASE_URL}/api/v1/orders/getOrders`,{
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    if (!response.ok) {
+      const errorResponse = await response.text();
+      throw new Error(`Failed to get orders ${errorResponse}`);
+    }
+    return response.json();
+  };
+
+  const { data: orders, isLoading } = useQuery(
+    "fetchGetOrders",
+    getOrderRequest
+  );
+
+  return { orders, isLoading };
+};
+
+type UpdateOrderStatus = {
+  orderId: string,
+  status: string,
+}
+
+export const useUpdateOrderStatus = () => {
+  const {getAccessTokenSilently} = useAuth0();
+  const updateOrderStatusRequest = async(updateOrderStatus:UpdateOrderStatus) => {
+    const accessToken = await getAccessTokenSilently();
+    const response = await fetch(`${API_BASE_URL}/api/v1/orders/${updateOrderStatus.orderId}/status`,{
+      method:"PATCH",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({status: updateOrderStatus.status})
+    });
+
+    if(!response.ok) {
+      const errorResponse = await response.text;
+      throw new Error(`Failed to update status: ${errorResponse}`)
+    }
+  }
+
+  const {
+    mutate: updateOrderStatus,
+    isLoading,
+    isError,
+    isSuccess,
+  } = useMutation(updateOrderStatusRequest);
+
+  if(isError) {
+    toast.error('Unable to update Order Status');
+  }
+  if(isSuccess) {
+    toast.success('Order Updated');
+  }
+
+  return {
+    updateOrderStatus,isLoading
+  }
+}
