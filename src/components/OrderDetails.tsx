@@ -1,5 +1,4 @@
 import { Order } from "@/Types/types"
-import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { Separator } from "./ui/separator";
 
 type Props = {
